@@ -1,0 +1,38 @@
+MODEL:
+  USE_ROTATE: False
+  ENCODER:
+    CLIP_RESOLUTION: [512, 512]
+  CSR:
+    ENABLE: True
+DATASETS:
+  TYPE: 'HRSCD'
+  CLASS_JSON: './data/HRSCD/hrscd.json'
+  NUM_CLASSES: 5
+  DATA_ROOT: '/archive/hot0/dql/CD-data/HRSCD'
+  DATA_PREFIX:
+    IMG_PATH: 'im1'
+    IMG_PATH2: 'im2'
+    SEG_MAP_PATH: 'label'
+  ANN_FILE:
+    TRAIN: ''
+    VAL: ''
+    TEST: ''
+  SUFFIX:
+    IMG_SUFFIX: '.tif'
+    IMG_SUFFIX2: '.tif'
+    SEG_MAP_SUFFIX: '.tif'
+    SEG_MAP_SUFFIX2: '.tif'
+  BCD_IGNORE_VALUE: 255
+SOLVER:
+  CUDA: '5'
+  BASE_LR: 0.0002
+  MAX_ITER: 60000
+  USE_CS_LOSS: True
+  USE_PC_LOSS: True
+  SS_WEIGHT: [1, 1, 1, 1]
+TEST:
+  EVAL_PERIOD: 3000
+DATALOADER:
+  BATCH_SIZE: 4
+  NUM_WORKERS: 2
+OUTPUT_DIR: './weights/hrscd'

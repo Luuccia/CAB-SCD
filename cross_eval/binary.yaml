@@ -1,0 +1,8 @@
+MODEL:
+  USE_ROTATE: False
+  ENCODER:
+    CLIP_RESOLUTION: [512, 512]
+  CSR:
+    ENABLE: True
+DATASETS:
+  CLASS_JSON: './eval_ov/building.json'

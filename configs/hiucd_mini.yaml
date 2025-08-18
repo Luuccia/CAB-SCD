@@ -1,0 +1,33 @@
+MODEL:
+  USE_ROTATE: False
+  ENCODER:
+    CLIP_RESOLUTION: [512, 512]
+  CSR:
+    ENABLE: True
+DATASETS:
+  TYPE: 'Hi-UCD'
+  CLASS_JSON: './data/Hi-UCD/hiucd.json'
+  NUM_CLASSES: 9
+  DATA_ROOT: '/archive/hot0/dql/CD-data/Hi-UCD-mini-512'
+  DATA_PREFIX:
+    IMG_PATH: 'im1'
+    IMG_PATH2: 'im2'
+    SEG_MAP_PATH: 'label'
+  ANN_FILE:
+    TRAIN: ''
+    VAL: ''
+    TEST: ''
+  BCD_IGNORE_VALUE: 255
+SOLVER:
+  CUDA: '7'
+  BASE_LR: 0.0002
+  MAX_ITER: 15000
+  USE_CS_LOSS: True
+  USE_PC_LOSS: True
+  SS_WEIGHT: [1, 1, 1, 1]
+TEST:
+  EVAL_PERIOD: 2000
+DATALOADER:
+  BATCH_SIZE: 4
+  NUM_WORKERS: 2
+OUTPUT_DIR: './weights/hiucd_mini'

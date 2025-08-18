@@ -1,0 +1,35 @@
+MODEL:
+  USE_ROTATE: False
+  ENCODER:
+    CLIP_RESOLUTION: [512, 512]
+  BCD_HEAD:
+    FUSE: True
+DATASETS:
+  TYPE: 'Landsat-SCD'
+  CLASS_JSON: './data/Landsat-SCD/landsat.json'
+  NUM_CLASSES: 4
+  DATA_ROOT: '/archive/hot0/dql/CD-data/Landsat-SCD_dataset'
+  # DATA_ROOT: './data/Landsat-SCD'
+  DATA_PREFIX:
+    IMG_PATH: 'A'
+    IMG_PATH2: 'B'
+    SEG_MAP_PATH: 'label1'
+    SEG_MAP_PATH2: 'label2'
+  ANN_FILE:
+    TRAIN: 'train.txt'
+    VAL: 'val.txt'
+    TEST: 'test.txt'
+  BCD_IGNORE_VALUE: 255
+SOLVER:
+  CUDA: '4'
+  BASE_LR: 0.0002
+  MAX_ITER: 30000
+  USE_CS_LOSS: True
+  USE_PC_LOSS: True
+  SS_WEIGHT: [1, 0.5, 0.5, 0.5]
+TEST:
+  EVAL_PERIOD: 2000
+DATALOADER:
+  BATCH_SIZE: 4
+  NUM_WORKERS: 2
+OUTPUT_DIR: './weights/landsat'
