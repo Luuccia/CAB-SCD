@@ -1,0 +1,79 @@
+MODEL:
+  USE_ROTATE: False
+  ENCODER:
+    CLIP_NAME: "convnext_base_w_320"
+    # "laion_aesthetic_s13b_b82k" download in ./weights
+    CLIP_PRETRAINED: "./weights/open_clip_pytorch_model.bin"
+    CLIP_FINETUNE: "full"
+    CLIP_RESOLUTION: [512, 512]
+    CLIP_PIXEL_MEAN: [122.7709383, 116.7460125, 104.09373615]
+    CLIP_PIXEL_STD: [68.5005327, 66.6321579, 70.3231630]
+    PROMPT_ENSEMBLE_TYPE: "imagenet"
+    CONTEXT_LENGTH: 38  # 固定参数长度
+    CLIP_DIM: 640
+    OUT_FEATURES: ["res2", "res3", "res4"]
+  CSR:
+    ENABLE: True
+  SEM_SEG_HEAD:
+    DECODER_DIMS: [64, 32, 16]
+    DECODER_GUIDANCE_DIMS: [512, 256, 128]
+    DECODER_GUIDANCE_PROJ_DIMS: [32, 16, 8]
+    NUM_LAYERS: 2
+    NUM_HEADS: 4
+    HIDDEN_DIMS: 128
+    POOLING_SIZES: [2, 2]
+    ATTENTION_TYPE: "linear"
+    CNEXT_TYPE: "V1"
+    KERNEL_SIZE: [7, 7, 7]
+  BCD_HEAD:
+    IN_CHANNELS: [128, 256, 512, 642]
+    FUSE: True
+DATASETS:
+  TYPE: 'Landsat-SCD'
+  CLASS_JSON: './data/Landsat-SCD/landsat.json'
+  NUM_CLASSES: 4
+  DATA_ROOT: './data/Landsat-SCD'
+  DATA_PREFIX:
+    IMG_PATH: 'A'
+    IMG_PATH2: 'B'
+    SEG_MAP_PATH: 'label1'
+    SEG_MAP_PATH2: 'label2'
+  ANN_FILE:
+    TRAIN: 'train.txt'
+    VAL: 'val.txt'
+    TEST: 'test.txt'
+  SUFFIX:
+    IMG_SUFFIX: '.png'
+    IMG_SUFFIX2: '.png'
+    SEG_MAP_SUFFIX: '.png'
+    SEG_MAP_SUFFIX2: '.png'
+  BCD_IGNORE_VALUE: 255
+SOLVER:
+  CUDA: '0'
+  BASE_LR: 0.0002
+  MAX_ITER: 1
+  WARMUP_FACTOR: 1.0
+  WARMUP_ITERS: 0
+  WARMUP_METHOD: "linear"
+  # Used for `poly` learning rate schedule.
+  POLY_LR_POWER: 0.9
+  POLY_LR_CONSTANT_ENDING: 0.0
+  WEIGHT_DECAY: 0.0001
+  WEIGHT_DECAY_NORM: 0.0
+  WEIGHT_DECAY_EMBED: 0.0  # weight decay on embedding
+  OPTIMIZER: "ADAMW"
+  CLIP_MULTIPLIER: 0.01
+  CLIP_GRADIENTS:
+    ENABLED: True
+    CLIP_TYPE: "full_model"
+    CLIP_VALUE: 0.01
+    NORM_TYPE: 2.0
+  USE_CS_LOSS: True
+  USE_PC_LOSS: True
+  SS_WEIGHT: [1, 0.5, 0.5, 0.5]
+TEST:
+  EVAL_PERIOD: 1
+DATALOADER:
+  BATCH_SIZE: 4
+  NUM_WORKERS: 2
+OUTPUT_DIR: './weights/landsat'
